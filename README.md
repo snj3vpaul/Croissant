@@ -44,6 +44,17 @@ croissant watch                # terminal mode: announces goals and finals
 
 Without `npm link`, use `node bin/croissant.js …` instead.
 
+## Deploy your own (Vercel)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/snj3vpaul/Croissant)
+
+The hosted version runs the same app on Vercel functions. Because there's no always-on server there, two things change:
+
+- Your teams are saved **in your browser**, not on a server. Each visitor gets their own list.
+- The page checks for score changes itself while it's open, and pops a notification if you've allowed them.
+
+The hosted brain is the built-in one. To make it chattier, set `CROISSANT_BRAIN=anthropic` (or `openai`) and the matching API key in the project's environment variables. Anyone with the link would then be using your API credit.
+
 ## Commands
 
 | Command | What it does |

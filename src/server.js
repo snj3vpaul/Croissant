@@ -7,6 +7,7 @@ import { loadConfig, saveConfig, addFavorite, removeFavorite, setAliases } from 
 import { searchTeams } from './providers/index.js';
 import { ask } from './brain/index.js';
 import { Tracker } from './tracker.js';
+import { cleanTeam } from './team.js';
 
 const PUBLIC = fileURLToPath(new URL('../public/', import.meta.url));
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.webmanifest': 'application/manifest+json' };
@@ -23,18 +24,6 @@ async function body(req) {
     if (raw.length > 64_000) throw new Error('Body too large');
   }
   return raw ? JSON.parse(raw) : {};
-}
-
-function cleanTeam(t) {
-  if (!t || !['espn', 'thesportsdb'].includes(t.provider) || !t.id || !t.name || !t.key) {
-    throw Object.assign(new Error('Not a team'), { status: 400 });
-  }
-  const pickStr = (v) => (v == null ? null : String(v).slice(0, 200));
-  return {
-    key: pickStr(t.key), provider: t.provider, sport: pickStr(t.sport), league: pickStr(t.league),
-    leagueLabel: pickStr(t.leagueLabel), id: pickStr(t.id), name: pickStr(t.name), short: pickStr(t.short),
-    nickname: pickStr(t.nickname), location: pickStr(t.location), abbr: pickStr(t.abbr), logo: pickStr(t.logo),
-  };
 }
 
 export async function startServer({ port, host = '127.0.0.1' } = {}) {
@@ -63,7 +52,7 @@ export async function startServer({ port, host = '127.0.0.1' } = {}) {
       }
       if (url.pathname === '/api/config' && req.method === 'GET') {
         const c = await loadConfig();
-        return send(res, 200, { favorites: c.favorites, brain: c.brain, timezone: c.timezone });
+        return send(res, 200, { hosted: false, favorites: c.favorites, brain: c.brain, timezone: c.timezone });
       }
       if (url.pathname === '/api/brain' && req.method === 'POST') {
         const { provider, model } = await body(req);
