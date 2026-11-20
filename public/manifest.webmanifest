@@ -1,0 +1,9 @@
+{
+  "name": "Croissant",
+  "short_name": "Croissant",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf3e4",
+  "theme_color": "#fbf3e4",
+  "icons": [{ "src": "croissant.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

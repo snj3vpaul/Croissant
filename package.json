@@ -1,0 +1,18 @@
+{
+  "name": "croissant",
+  "version": "0.1.0",
+  "description": "A little companion that keeps an eye on your favourite teams, so you never have to Google the score again.",
+  "type": "module",
+  "bin": {
+    "croissant": "bin/croissant.js"
+  },
+  "scripts": {
+    "start": "node bin/croissant.js serve",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": ["sports", "scores", "companion", "assistant", "nhl", "nba", "soccer", "cricket"],
+  "license": "MIT"
+}
