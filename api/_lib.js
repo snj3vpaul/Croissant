@@ -6,6 +6,16 @@ export function send(res, code, body, cache = 'no-store') {
   res.end(JSON.stringify(body));
 }
 
+// GET ?teams=[...]&question=... works too, handy for testing and sharing links.
+export async function readInput(req) {
+  if (req.method === 'GET') {
+    const q = new URL(req.url, 'http://x').searchParams;
+    return { teams: JSON.parse(q.get('teams') || '[]'), question: q.get('question') ?? q.get('q') ?? '', timezone: q.get('tz') };
+  }
+  if (req.method !== 'POST') throw Object.assign(new Error('Use GET or POST'), { status: 405 });
+  return readBody(req);
+}
+
 export async function readBody(req) {
   if (req.body && typeof req.body === 'object') return req.body;
   if (typeof req.body === 'string') return req.body ? JSON.parse(req.body) : {};
